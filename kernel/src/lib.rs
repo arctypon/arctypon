@@ -13,5 +13,8 @@ use ostd::prelude::*;
 fn kernel_main() {
     let mut mb: Mailbox<u32, Global> = Mailbox::new_in(8, Global);
     mb.try_send(42).ok();
-    println!("arctypon: hello from the actor kernel! recv = {:?}", mb.try_recv());
+    println!(
+        "arctypon: hello from the actor kernel! recv = {:?}",
+        mb.try_recv()
+    );
 }

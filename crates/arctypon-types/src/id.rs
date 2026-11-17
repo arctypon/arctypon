@@ -1,9 +1,9 @@
 //! Strongly-typed Identifiers
-//! 
+//!
 //! Prevents mixing up Actor IDs and Cell IDs at compile time (Zero-cost abstraction).
 
 use core::fmt;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 /// Unique identifier for an Actor in the system.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]

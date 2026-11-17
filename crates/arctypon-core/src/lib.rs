@@ -5,7 +5,10 @@
 
 extern crate alloc;
 
+pub mod dispatch;
 mod mailbox;
+
+pub use dispatch::{ActorRef, BackpressurePolicy, Dispatcher, Placement};
 pub use mailbox::Mailbox;
 
 /// An actor processes one message at a time from its mailbox.

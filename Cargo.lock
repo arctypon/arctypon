@@ -30,6 +30,9 @@ dependencies = [
 [[package]]
 name = "arctypon-core"
 version = "0.0.0"
+dependencies = [
+ "arctypon-types",
+]
 
 [[package]]
 name = "arctypon-types"

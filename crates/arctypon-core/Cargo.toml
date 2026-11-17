@@ -8,11 +8,12 @@ repository.workspace = true
 authors.workspace = true
 keywords = ["actor", "no-std", "kernel", "allocator", "os"]
 categories = ["no-std", "concurrency"]
-# MSRV 說明：stable 1.100（custom allocators 已穩定）。
-# 刻意不設 rust-version——見下方「坑 2」。
+
+[dependencies]
+arctypon-types = { path = "../arctypon-types", version = "0.0.0" }
 
 [features]
-nightly = []   # 供 OSTD 釘版 nightly（早於 1.100）編譯時開 feature gate
+nightly = []
 
 [lints]
 workspace = true

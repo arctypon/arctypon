@@ -1,1 +1,6 @@
-  { "rust-analyzer.linkedProjects": ["crates/arctypon-core/Cargo.toml"] }
+{
+  "rust-analyzer.linkedProjects": [
+    "crates/arctypon-core/Cargo.toml",
+    "crates/arctypon-types/Cargo.toml"
+  ]
+}

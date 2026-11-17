@@ -160,3 +160,28 @@ Q7 polish：topics、org website、per-crate LICENSE、badge、tag v0.0.0 — op
 - 監督/反壓/可觀測三一致：Supervisor trait、BackpressurePolicy enum、ActorStats 原子計數，皆與 dispatcher 解耦。
 - Placement enum 由 runtime 於 spawn 顯式指定；單 binary 多 placement（雙軌制詮釋 atomr「不寫兩份程式」）。
 - 交付序：dispatch.rs（core）→ supervisor.rs（runtime）→ stats（runtime）→ HostShmem（abi, Phase 3）。
+
+## 附錄 D：編碼指南——窮盡解構（2026-11-17 增訂）
+來源：A. Vandecrème, "In praise of exhaustive destructuring" (2026-07-12)。
+D1. 專案自有 struct 的解構**禁 `..`**：逐欄列出，未用欄位寫 `field: _`。
+    效果：新增欄位時所有解構點 E0027 編譯失敗，強制逐一審視。
+D2. 專案自有 enum 的 match **禁 `_ =>` 萬配臂**：逐一列出 variant。
+D3. lint 強制（enum 側）：workspace 層 deny
+    clippy::wildcard_enum_match_arm、clippy::match_wildcard_for_single_variants。
+    （struct 側無對應 lint，D1 屬公約＋code review／AI 門禁項目。）
+D4. 層間 From/Into（abi↔core↔host）必須完整解構兩端：新增欄位時編譯器強制
+    決定是否傳播，杜絕「悄悄丟欄位」。
+D5. 例外：外部 crate 的 #[non_exhaustive] enum 允許且必須萬配，但萬配臂須映射到
+    明確 Error variant，禁 silently ignore；arctypon-abi 對外 enum 標
+    #[non_exhaustive] 保留演進空間，內部處理仍依 D2/D4。
+D6. 若同一組欄位總是被一起解構、其餘總被 `: _`——視為**升格獨立 struct** 的訊號
+    （呼應極度模組化憲章）。
+
+## 附錄 E：門禁修訂與工具chain紀律（2026-11-17）
+E1. root 之 default toolchain 恆為 stable 1.100；nightly 僅經 run.sh/gate.sh 的
+    RUSTUP_TOOLCHAIN 顯式引入。 drift 檢查：`rustup show`。
+E2. host 門禁（fmt/clippy/test）改採 -p 白名單（core、types）：ostd 為
+    x86_64-unknown-none 專用，host target 編譯必炸（tdx_guest 等 122 errors），
+    `--workspace` 全掃僅限 fmt。
+E3. kernel 門禁＝`cargo osdk test`（交叉目標）。
+E4. Q3 狀態：build 面已通（target/osdk/*.elf、*.iso 產出）；run 面待確認 hello 行。

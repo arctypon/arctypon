@@ -14,7 +14,10 @@ pub struct Mailbox<M, A: Allocator> {
 impl<M, A: Allocator> Mailbox<M, A> {
     /// Create an empty mailbox with the given capacity and allocator.
     pub fn new_in(capacity: usize, alloc: A) -> Self {
-        Self { queue: Vec::new_in(alloc), capacity }
+        Self {
+            queue: Vec::new_in(alloc),
+            capacity,
+        }
     }
     /// Enqueue a message; returns it back if the mailbox is full.
     pub fn try_send(&mut self, msg: M) -> Result<(), M> {
@@ -29,9 +32,13 @@ impl<M, A: Allocator> Mailbox<M, A> {
         self.queue.pop()
     }
     /// Number of queued messages.
-    pub fn len(&self) -> usize { self.queue.len() }
+    pub fn len(&self) -> usize {
+        self.queue.len()
+    }
     /// Whether the mailbox is empty.
-    pub fn is_empty(&self) -> bool { self.queue.is_empty() }
+    pub fn is_empty(&self) -> bool {
+        self.queue.is_empty()
+    }
 }
 
 #[cfg(test)]
