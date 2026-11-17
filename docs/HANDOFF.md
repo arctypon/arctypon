@@ -185,3 +185,28 @@ E2. host 門禁（fmt/clippy/test）改採 -p 白名單（core、types）：ostd
     `--workspace` 全掃僅限 fmt。
 E3. kernel 門禁＝`cargo osdk test`（交叉目標）。
 E4. Q3 狀態：build 面已通（target/osdk/*.elf、*.iso 產出）；run 面待確認 hello 行。
+
+## 附錄 C rev2 — Phase 0 關閉（2026-11-17 夜）
+里程碑：
+- M1 名稱到手：crates.io arctypon / arctypon-core 0.0.0；GitHub org+repo。
+- M2 kernel 首開：cargo osdk run → QEMU 印出
+  "arctypon: hello from the actor kernel! recv = Some(42)"。
+  （APIC/ACPI/isa-debug-exit 正常；WARN NoIommu 為 QEMU 正常現象。）
+進度條 rev2：
+| 項目 | 狀態 | 備註 |
+|---|---|---|
+| arctypon-core | ✅ published 0.0.0 | mailbox+dispatch，3 tests |
+| arctypon-types | 🚧 在庫未發布 | id/math/error，1 test；fixed =1.31.0 |
+| arctypon (kernel) | ✅ published 0.0.0＋首開 | hello 行實證 |
+| arctypon-sim | ⏳ 待規則定義（用戶決策） | Phase 1 |
+| abi / runtime / host | ⏳ | Phase 2/3 |
+未決問題 rev2：
+- Q3 closed（override＋OVMF VARS writable＋RUSTUP_TOOLCHAIN/docker scheme）
+- Q4 open：RA 65 problems（cosmetic；cargo 門禁綠＝真相）
+- Q5 open：kernel docs.rs｜Q6 open：runtime/macros 佔位
+- Q7 partial：topics/org website/badge/per-crate LICENSE 仍欠
+- Q8 new：arctypon-types 發布時機（現在 vs 等 sim 依賴後）
+下一步行動：
+1. git push（5 commits）；可選 tag：boot-2026-11-17
+2. 用戶定義 arctypon-sim 狀態機規則（或批准預設提案）
+3. 首檔：crates/arctypon-sim/src/state.rs（≤200 行，tick+Fixed+重放測試）
