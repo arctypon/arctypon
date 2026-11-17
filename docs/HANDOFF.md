@@ -210,3 +210,9 @@ E4. Q3 狀態：build 面已通（target/osdk/*.elf、*.iso 產出）；run 面�
 1. git push（5 commits）；可選 tag：boot-2026-11-17
 2. 用戶定義 arctypon-sim 狀態機規則（或批准預設提案）
 3. 首檔：crates/arctypon-sim/src/state.rs（≤200 行，tick+Fixed+重放測試）
+
+## 附錄 F：寫入紀律（2026-11-17）
+G1. 單一寫入者：同一時間僅一個 session/機器可直推 main；其餘（含 web 編輯）
+    一律 branch＋PR 合併。
+G2. 來路不明 commit 先 `git show <sha> --stat` 驗作者與範圍，完成安全檢查
+    （sessions/tokens/2FA）後才得 rebase 整合。
