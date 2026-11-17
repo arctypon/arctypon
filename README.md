@@ -1,19 +1,25 @@
 # arctypon
 
+   [![crates.io](https://img.shields.io/crates/v/arctypon.svg)](https://crates.io/crates/arctypon)
+   [![core](https://img.shields.io/crates/v/arctypon-core.svg?label=arctypon-core)](https://crates.io/crates/arctypon-core)
+   [![docs](https://docs.rs/arctypon-core/badge.svg)](https://docs.rs/arctypon-core)
+   [![license](https://img.shields.io/crates/l/arctypon.svg)](LICENSE-MIT)
+
 **Open-source actor-model kernels & runtimes in `no_std` Rust — built on
 [Asterinas OSTD/OSDK](https://github.com/asterinas/asterinas).**
 
 > 🚧 Early stage: this repository currently hosts a placeholder crate while
 > the kernel is being built.
 
+
 ## The series
 
 | Crate | Purpose | Status |
 |---|---|---|
 | `arctypon` | Actor kernel built on OSTD | 🚧 early stage |
-| `arctypon-core` | Core actor & message abstractions (`no_std`) | 📋 planned |
-| `arctypon-runtime` | Scheduler and message dispatch | 📋 planned |
-| `arctypon-macros` | Procedural macros | 📋 planned |
+| `arctypon-core` | Core actor & message abstractions (`no_std`) | 🚧 early stage |
+| `arctypon-runtime` | Scheduler and message dispatch | 🚧 early stage |
+| `arctypon-macros` | Procedural macros | 🚧 early stage |
 
 ## Design principles
 
