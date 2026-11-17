@@ -1,0 +1,18 @@
+[package]
+name = "arctypon-core"
+description = "Core actor & message abstractions (no_std) for the arctypon kernel series"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+keywords = ["actor", "no-std", "kernel", "allocator", "os"]
+categories = ["no-std", "concurrency"]
+# MSRV 說明：stable 1.100（custom allocators 已穩定）。
+# 刻意不設 rust-version——見下方「坑 2」。
+
+[features]
+nightly = []   # 供 OSTD 釘版 nightly（早於 1.100）編譯時開 feature gate
+
+[lints]
+workspace = true

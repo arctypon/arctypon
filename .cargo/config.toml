@@ -1,0 +1,3 @@
+# RFC 3923：忽略發布未滿 7 天的 registry 版本（已在 Cargo.lock 者除外）
+[registry]
+global-min-publish-age = "7 days"

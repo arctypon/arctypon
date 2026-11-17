@@ -1,0 +1,15 @@
+[package]
+name = "arctypon"
+description = "Open-source no_std actor kernel in Rust, built on Asterinas OSTD/OSDK"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+ostd = { workspace = true }
+arctypon-core = { workspace = true, features = ["nightly"] }
+
+[lints]
+workspace = true

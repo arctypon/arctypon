@@ -1,0 +1,21 @@
+[workspace]
+resolver = "3"
+members = ["crates/arctypon-core", "kernel"]
+
+[workspace.package]
+version = "0.0.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/arctypon/arctypon"
+authors = ["靈月夜 (Luna-night)"]
+
+[workspace.dependencies]
+arctypon-core = { path = "crates/arctypon-core", version = "0.0.0" }
+ostd = "0.19.0"
+
+[workspace.lints.rust]
+unsafe_code = "deny"        # framekernel 承諾：unsafe 只存在於 OSTD
+missing_docs = "warn"
+
+[workspace.lints.cargo]
+unused_dependencies = "warn"   # CI 穩定後可升 "deny"
