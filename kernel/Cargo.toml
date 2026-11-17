@@ -6,6 +6,8 @@ edition.workspace = true
 license.workspace = true
 repository.workspace = true
 authors.workspace = true
+keywords = ["actor", "kernel", "no-std", "os", "asterinas"]
+categories = ["no-std", "os"]
 
 [dependencies]
 ostd = { workspace = true }

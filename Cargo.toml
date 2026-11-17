@@ -14,8 +14,11 @@ arctypon-core = { path = "crates/arctypon-core", version = "0.0.0" }
 ostd = "0.19.0"
 
 [workspace.lints.rust]
-unsafe_code = "deny"        # framekernel 承諾：unsafe 只存在於 OSTD
-missing_docs = "warn"
+unsafe_code = "deny"          # 绝对禁止 unsafe，逼 AI 使用安全抽象
+missing_docs = "deny"         # 强制 AI 写文档，AI 写文档其实比人快，便于你审查
+non_ascii_idents = "deny"     # 禁止中文变量名，AI 偶尔会犯这种错
+unwrap_used = "deny"          # 禁止 unwrap，强制 AI 处理 Result 和 Option
+panic = "deny"                # 禁止 panic，微内核/Actor 中绝不允许失控的崩溃
 
 [workspace.lints.cargo]
 unused_dependencies = "warn"   # CI 穩定後可升 "deny"
