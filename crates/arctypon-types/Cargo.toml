@@ -1,0 +1,17 @@
+[package]
+name = "arctypon-types"
+description = "ID newtypes, fixed-point math, and error codes for the arctypon series (no_std, alloc-free)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+keywords = ["no-std", "fixed-point", "actor", "types"]
+categories = ["no-std"]
+
+[dependencies]
+fixed = "1.31.0"
+serde = { version = "1.0.229", default-features = false, features = ["derive"] }
+
+[lints]
+workspace = true

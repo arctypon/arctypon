@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/arctypon-core", "kernel"]
+members = ["crates/arctypon-core", "crates/arctypon-types", "kernel"]
 
 [workspace.package]
 version = "0.0.0"

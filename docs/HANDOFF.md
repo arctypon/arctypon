@@ -153,3 +153,10 @@ Q7 polish：topics、org website、per-crate LICENSE、badge、tag v0.0.0 — op
 - GRUB "no suitable video mode"（走 serial 不影響）
 - IOMMU NoIommu（未啟用 DMA）
 - `ignoring registry.global-min-publish-age without -Zmin-publish-age`（nightly 需 -Z 才生效）
+
+## 附錄 E：atomr 模式提取（2026-11-17，僅模式、零依賴）
+- tell() 傳輸無關 → Dispatcher trait（enqueue(&[u8]) + placement()）；實作序：Mailbox → HostShmem(ABI) → Accel(OSTD DMA)。
+- tell() 零分配：postcard 序列化至棧上 [u8; 256]；超限 = InvalidPayload。
+- 監督/反壓/可觀測三一致：Supervisor trait、BackpressurePolicy enum、ActorStats 原子計數，皆與 dispatcher 解耦。
+- Placement enum 由 runtime 於 spawn 顯式指定；單 binary 多 placement（雙軌制詮釋 atomr「不寫兩份程式」）。
+- 交付序：dispatch.rs（core）→ supervisor.rs（runtime）→ stats（runtime）→ HostShmem（abi, Phase 3）。
