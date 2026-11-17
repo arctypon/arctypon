@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 #![no_std]
 #![deny(unsafe_code)]
+#![feature(allocator_api)]
 
 extern crate alloc;
 

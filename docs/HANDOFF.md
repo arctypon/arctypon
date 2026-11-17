@@ -120,3 +120,36 @@ Q7 polish：topics、org website、per-crate LICENSE、badge、tag v0.0.0 — op
 - 裸機 OVMF：CODE 唯讀 /usr/share/OVMF/OVMF_CODE_4M.fd；VARS 可寫副本 ~/.cache/arctypon/OVMF_VARS.fd。
 - Nix shell（PR asterinas#3548）暫不採用：osdk-new 專案硬編碼 Docker firmware 路徑＋首次 ~10GB。
 - Q3：open，待 ./run.sh run 實測後關閉。
+- Q3 追加（19:37）：run.sh 之 RUSTUP_TOOLCHAIN 實測仍落 stable（H1/H2/H3 待診）；改採 directory override：根=nightly-2026-07-21、crates/arctypon-core=stable。override 依 cwd 查表，對 env 清理免疫。
+
+## 附錄 D：Q3 決策紀錄（完整鏈，2026-11-17）
+狀態：**關閉**（首次開機成功，recv = Some(42) 驗證）。
+
+修復鏈（按時間序）：
+1. kernel/Cargo.toml：keywords 誤置 [lints] → cargo metadata 失敗 → OSDK manifest panic。修正：移回 [package]。
+2. 路徑中文字元：OSDK 0.19.0 在含非 ASCII 路徑下 fs::metadata 失敗。使用者 mv 文件 → Documents + symlink 解決。
+3. cargo 子進程工具鏈解析：
+   - `cargo +nightly` 不外傳子進程（shim 不傳承 `+toolchain` flag）
+   - `RUSTUP_TOOLCHAIN` env 實測亦失效（H1：非 shim 的真實 cargo 在 PATH 優先；H2/H3：env sanitize）
+   - **結構性解**：`rustup override set` 依 cwd 生效，對 base crate（target/ 下）亦覆蓋
+4. 雙軌 override 策略：
+   - 根 /home/luna/Documents/arctypon → nightly-2026-07-21（kernel 路徑）
+   - crates/arctypon-core → stable-x86_64-unknown-linux-gnu（宿主測試路徑）
+   - workspace 測試靠 feature 統一在 nightly 下編譯 core
+5. feature gate 缺漏：kernel/src/lib.rs 缺 `#![feature(allocator_api)]`（stable 1.100 已穩，但釘版 nightly-2026-07-21 ≈ Rust 1.99 仍 unstable）。加一行修復。
+6. workspace lints 錯置：`unwrap_used`/`panic` 是 clippy lint，誤置 `[lints.rust]` 觸發 rustc E0602。移至 `[workspace.lints.clippy]`。
+7. OVMF VARS 可寫性：QEMU pflash unit=1 需可寫檔案；建 ~/.cache/arctypon/OVMF_VARS.fd 副本。
+8. OSDK.toml 雙 scheme：預設（裸機路徑）+ `[scheme.docker.qemu]`（容器路徑）。
+9. run.sh 統一入口：`export RUSTUP_TOOLCHAIN=nightly-2026-07-21` + `cd kernel && cargo osdk "$@"`。
+
+環境事實：
+- /home/luna/Documents/arctypon 實際路徑（`~/文件` 是 symlink）
+- 使用者已有 /home/luna/warehouse/arc-osdk 的獨立 override（同 nightly）
+
+未納入：PR asterinas#3548 的 Nix shell（osdk-new 專案硬編碼 Docker firmware 路徑＋首次 ~10GB 下載）。
+
+日誌噪音清單（已知無害，不必修）：
+- TCG CPUID feature warnings × 17
+- GRUB "no suitable video mode"（走 serial 不影響）
+- IOMMU NoIommu（未啟用 DMA）
+- `ignoring registry.global-min-publish-age without -Zmin-publish-age`（nightly 需 -Z 才生效）
